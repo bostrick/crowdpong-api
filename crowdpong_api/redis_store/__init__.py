@@ -20,6 +20,7 @@ def includeme(config):
     rstore["paddle_red_v"] = 0.0;
     rstore["paddle_delta_v"] = 0.1;
     rstore["paddle_max_v"] = 1.0;
+    rstore["ball_v"] = 1.0;
 
     INFO("adding store")
 

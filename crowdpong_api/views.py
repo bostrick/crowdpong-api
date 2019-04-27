@@ -60,6 +60,10 @@ class ControllerAPI(BaseView):
         elif command == "up":
             if rs[paddle_v] > -rs["paddle_max_v"]:
                 rs[paddle_v] -= rs["paddle_delta_v"]
+        elif command == "faster":
+            rs['ball_v'] *= 1.1
+        elif command == "slower":
+            rs['ball_v'] *= 0.9
         else:
             raise ValueError("unknown command %s" % command)
 
