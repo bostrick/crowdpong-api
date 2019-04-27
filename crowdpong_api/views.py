@@ -38,23 +38,42 @@ def my_view(request):
 class ControllerAPI(BaseView):
 
     def get(self):
+
         sess = self.request.session
-        count = sess.setdefault("count", 0)
-        sess["count"] = count+1
-        return {
-            'team': sess.get('team', "unknown"),
-            'paddle': 0.0, 
-            'count': count
-        }
+        rs = self.request.redis_store
+
+        data = dict(rs)
+        data['team'] = sess.get('team', "unknown")
+        return data
 
     def post(self):
+
+        sess = self.request.session
+        rs = self.request.redis_store
         command = self.request.json.get("command")
-        return {'team': "blue", 'paddle': 0.0, 'command': command}
+
+        paddle_v = "paddle_%s_v" % sess["team"]
+
+        if command == "down":
+            if rs[paddle_v] < rs["paddle_max_v"]:
+                rs[paddle_v] += rs["paddle_delta_v"]
+        elif command == "up":
+            if rs[paddle_v] > -rs["paddle_max_v"]:
+                rs[paddle_v] -= rs["paddle_delta_v"]
+        else:
+            raise ValueError("unknown command %s" % command)
+
+        return {
+            'team': sess["team"], 
+            'command': command, 
+            'paddle_v': rs[paddle_v],
+        }
 
 
 @view_config(route_name='game_state', renderer='json')
 def game_state_api(request):
-    return {'blue_paddle': 0.0, 'red_paddle': 0.0}
+    rs = request.redis_store
+    return dict(rs)
 
 
 @view_config(route_name='game_config', renderer='json')
