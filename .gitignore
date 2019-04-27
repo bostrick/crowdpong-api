@@ -1,0 +1,6 @@
+.*.sw?
+venv*
+reports
+custom.ini
+*.egg-info
+__pycache__

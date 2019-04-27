@@ -1,0 +1,3 @@
+[run]
+source = crowdpong_api
+omit = crowdpong_api/test*
