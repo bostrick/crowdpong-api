@@ -1,6 +1,8 @@
 
 import random
 
+import "foo
+
 from pyramid.config import Configurator
 from pyramid.events import NewResponse, NewRequest, subscriber
 #from pyramid_beaker import set_cache_regions_from_settings
