@@ -16,6 +16,7 @@ def initialize_session(event):
     if not 'team' in s:
         s['team'] = random.choice(['blue', 'red'])
     INFO("request team: %s" % s['team'])
+    s.save()
 
 
 @subscriber(NewResponse)
